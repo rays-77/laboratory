@@ -19,4 +19,30 @@ const filter = _.curry(function(func, arr) {
 const findSpaceStr = filter(haveSpace)
 
 //找出数组中包含有空格的元素，并且返回数组
-console.log(findSpaceStr(['rays 77', 'rays77']))
+console.log(findSpaceStr(['rays 77', 'rays77','hello world','hey,man']))
+
+
+//柯里化原理模拟
+
+function curry(func){
+    return function curriedFn(...args) {
+        //判断实参和形参的个数
+        if(args.length < func.length){
+          return function(){
+              return curriedFn(...args.concat(Array.from(arguments)))
+          }
+        }
+        return func(...args)
+    }
+  }
+  
+
+  function getSum(a,b,c){
+      return a+b+c;
+  }
+
+  const curried = curry(getSum)
+
+  console.log(curried(1,2,3))
+  console.log(curried(1),(2,3))
+  console.log(curried(1,2)(3))

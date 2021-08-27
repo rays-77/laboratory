@@ -26,3 +26,8 @@ let checkAge20 = checkAge(20)
 
 console.log(checkAge18(16))
 console.log(checkAge20(25))
+
+
+
+
+
