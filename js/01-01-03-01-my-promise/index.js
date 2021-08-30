@@ -23,24 +23,39 @@ then方法是被定义在原型对象中的，因为每一个promise实例对象
 */
 
 
-const myPromise = require("./my-promise");
+const MyPromise = require("./my-promise");
 
-function promise1(){
-    return new myPromise(function(resolve,reject){
-        setTimeout(function(){
-            resolve('promise1 已执行')
-        },3000)
+function promise1() {
+    return new MyPromise(function(resolve, reject) {
+        setTimeout(function() {
+            resolve('promise1 执行成功 ...')
+        }, 2000)
     })
 }
 
 
-function promise2(){
-    return new myPromise(function(resolve,reject){
-        reject("promise2 执行失败")
+function promise() {
+    return new MyPromise(function(resolve, reject) {
+        resolve("promise 执行成功")
+            //reject("promise2 执行失败")
+    })
+}
+
+function other() {
+    return new MyPromise((resolve) => {
+        resolve("other 执行完成")
     })
 }
 
 
-promise2()
-    .then(value=> console.log(value))
-    .catch(error=> console.log(error))
+promise1()
+    .then(value => {
+        console.log(value)
+            //throw new Error("then error")
+        return 'aaa'
+    }).then(value => {
+        console.log(value + 1)
+        return 10000
+    }, reason => {
+        console.log(reason)
+    })
