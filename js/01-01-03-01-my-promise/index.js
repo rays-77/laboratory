@@ -22,40 +22,50 @@ then方法是被定义在原型对象中的，因为每一个promise实例对象
 7. then方法是可以被链式调用的，后面then的回调函数拿到值得是上一个then方法的回调函数的返回值。
 */
 
-
-const MyPromise = require("./my-promise");
+const MyPromise = require('./my-promise')
 
 function promise1() {
-    return new MyPromise(function(resolve, reject) {
-        setTimeout(function() {
-            resolve('promise1 执行成功 ...')
-        }, 2000)
-    })
+  return new MyPromise(function (resolve, reject) {
+    setTimeout(function () {
+      resolve('promise1 执行成功 ...')
+    }, 2000)
+  })
 }
 
-
-function promise() {
-    return new MyPromise(function(resolve, reject) {
-        resolve("promise 执行成功")
-            //reject("promise2 执行失败")
-    })
+function promise2() {
+  return new MyPromise(function (resolve, reject) {
+    resolve('promise2 执行成功')
+    //reject('promise2 执行失败')
+  })
 }
 
 function other() {
-    return new MyPromise((resolve) => {
-        resolve("other 执行完成")
-    })
+  return new MyPromise((resolve) => {
+    resolve('other 执行完成')
+  })
 }
 
+// promise1()
+//     .then(value => {
+//         console.log(value)
+//             //throw new Error("then error")
+//         return 'aaa'
+//     }).then(value => {
+//         console.log(value + 1)
+//         return 10000
+//     }, reason => {
+//         console.log(reason)
+//     })
 
-promise1()
-    .then(value => {
-        console.log(value)
-            //throw new Error("then error")
-        return 'aaa'
-    }).then(value => {
-        console.log(value + 1)
-        return 10000
-    }, reason => {
-        console.log(reason)
-    })
+// promise2()
+//   .then()
+//   .then()
+//   .then(
+//     (value) => console.log(value),
+//     (reason) => console.log(reason)
+//   )
+
+MyPromise.all(['a', 'b', promise1(), promise2(), 'c']).then(
+  (value) => console.log(value),
+  (reason) => console.log(reason)
+)
