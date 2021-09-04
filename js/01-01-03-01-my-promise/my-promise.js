@@ -119,6 +119,7 @@ class MyPromise {
         return promise2
     }
 
+
     //静态方法
     static all(array) {
         let result = []
@@ -146,6 +147,60 @@ class MyPromise {
                 }
             }
         })
+    }
+
+    finally(callback) {
+        return this.then(
+            (value) => {
+                return MyPromise.resolve(callback()).then(() => value)
+            },
+            (reason) => {
+                return MyPromise.resolve(callback()).then(() => {
+                    throw reason
+                })
+            }
+        )
+    }
+
+
+    //捕获异常
+    catch (failCallback) {
+        return this.then(undefined, failCallback)
+    }
+
+    //静态方法
+    static all(array) {
+        let result = []
+        let index = 0
+        return new MyPromise((resolve, reject) => {
+            function addData(key, value) {
+                result[key] = value
+                index++
+                //等全部执行完，再返回promise
+                if (index === array.length) resolve(result)
+            }
+
+            for (let i = 0; i < array.length; i++) {
+                let current = array[i]
+                    //判断当前是promise对象还是正常值
+                if (current instanceof MyPromise) {
+                    //promise对象
+                    current.then(
+                        (value) => addData(i, value),
+                        (reason) => reject(reason)
+                    )
+                } else {
+                    //普通值
+                    addData(i, array[i])
+                }
+            }
+        })
+    }
+
+    //返回promise 静态方法
+    static resolve(value) {
+        if (value instanceof MyPromise) return value
+        return new MyPromise((resolve) => resolve(value))
     }
 }
 
