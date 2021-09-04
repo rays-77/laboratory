@@ -27,7 +27,8 @@ const MyPromise = require('./my-promise')
 function promise1() {
   return new MyPromise(function (resolve, reject) {
     setTimeout(function () {
-      resolve('promise1 执行成功 ...')
+      //resolve('promise1 执行成功 ...')
+      reject('promise1 执行失败')
     }, 2000)
   })
 }
@@ -65,7 +66,36 @@ function other() {
 //     (reason) => console.log(reason)
 //   )
 
-MyPromise.all(['a', 'b', promise1(), promise2(), 'c']).then(
-  (value) => console.log(value),
-  (reason) => console.log(reason)
-)
+// MyPromise.all(['a', 'b', promise1(), promise2(), 'c']).then(
+//   (value) => console.log(value),
+//   (reason) => console.log(reason)
+// )
+
+// MyPromise.resolve(100).then((value) => {
+//   console.log(value)
+// })
+
+// MyPromise.resolve(promise1()).then((value) => {
+//   console.log(value)
+// })
+
+// promise1()
+//   .finally(() => {
+//     console.log('finally')
+//   })
+//   .then(
+//     (value) => {
+//       console.log(value)
+//     },
+//     (reason) => {
+//       console.log(reason)
+//     }
+//   )
+
+promise1()
+  .then((value) => {
+    console.log(value)
+  })
+  .catch((reason) => {
+    console.log(reason)
+  })
