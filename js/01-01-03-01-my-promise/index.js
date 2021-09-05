@@ -25,25 +25,25 @@ then方法是被定义在原型对象中的，因为每一个promise实例对象
 const MyPromise = require('./my-promise')
 
 function promise1() {
-  return new MyPromise(function (resolve, reject) {
-    setTimeout(function () {
-      //resolve('promise1 执行成功 ...')
-      reject('promise1 执行失败')
-    }, 2000)
-  })
+    return new MyPromise(function(resolve, reject) {
+        setTimeout(function() {
+            //resolve('promise1 执行成功 ...')
+            reject('promise1 执行失败')
+        }, 2000)
+    })
 }
 
 function promise2() {
-  return new MyPromise(function (resolve, reject) {
-    resolve('promise2 执行成功')
-    //reject('promise2 执行失败')
-  })
+    return new MyPromise(function(resolve, reject) {
+        resolve('promise2 执行成功')
+            //reject('promise2 执行失败')
+    })
 }
 
 function other() {
-  return new MyPromise((resolve) => {
-    resolve('other 执行完成')
-  })
+    return new MyPromise((resolve) => {
+        resolve('other 执行完成')
+    })
 }
 
 // promise1()
@@ -93,9 +93,26 @@ function other() {
 //   )
 
 promise1()
-  .then((value) => {
-    console.log(value)
-  })
-  .catch((reason) => {
-    console.log(reason)
-  })
+    .then((value) => {
+        console.log(value)
+    })
+    .catch((reason) => {
+        console.log(reason)
+    })
+
+
+
+class Person {
+    constructor(name) {
+        this._value = name
+    }
+
+    static create(name) {
+        console.log(this);
+        return new Person(name)
+    }
+
+}
+
+
+Person.create("a")

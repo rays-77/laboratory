@@ -51,11 +51,7 @@ class MyPromise {
 
     then(successCallback, failCallback) {
         successCallback = successCallback ? successCallback : (value) => value
-        failCallback = failCallback ?
-            failCallback :
-            (reason) => {
-                throw reason
-            }
+        failCallback = failCallback ? failCallback : (reason) => { throw reason }
         let promise2 = new MyPromise((resolve, reject) => {
             if (this.status === FULFILLED) {
                 setTimeout(() => {
